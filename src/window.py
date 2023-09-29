@@ -44,7 +44,33 @@ class FolderIconWindow(Adw.ApplicationWindow):
         self.add_action(install_action)
 
     def open_file_dialog(self, action, _):
-        print(action)
+        # Create a new file selection dialog, using the "open" mode
+        # and keep a reference to it
+        self._native = Gtk.FileChooserNative(
+            title="Open File",
+            transient_for=self,
+            action=Gtk.FileChooserAction.OPEN,
+            accept_label="_Open",
+            cancel_label="_Cancel",
+        )
+        # Connect the "response" signal of the file selection dialog;
+        # this signal is emitted when the user selects a file, or when
+        # they cancel the operation
+        self._native.connect("response", self.on_open_response)
+        # Present the dialog to the user
+        self._native.show()
+
+    def on_open_response(self, dialog, response):
+        # If the user selected a file...
+        if response == Gtk.ResponseType.ACCEPT:
+            # ... retrieve the location from the dialog and open it
+            self.open_file(dialog.get_file())
+        # Release the reference on the file selection dialog now that we
+        # do not need it any more
+        self._native = None
+
+    def open_file(self, file):
+        pass
 
     def generate_image(self, action, _):
         print("activated")
