@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=folder-icon
+Exec=folder-icon
+Icon=org.gnome.Example
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true
